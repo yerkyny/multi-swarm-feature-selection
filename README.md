@@ -32,20 +32,30 @@ Particle Swarm Optimization (PSO) is one of the simplest and earliest swarm inte
 2. For each step $t=0, 1, 2, \dots$
     * Calculate the costs $L(x_i(t)), \hspace{6pt} i=1,\dots,n$
     * Update the best personal position if each particle and the global best position of each of the swarm.
-        $$\text{pbest}_i(t) = x, \textit{ s.t. } L(x)  = \min_{s\leq t} L(x_i(s))$$
-        $$\text{gbest}_i(t) = x, \textit{ s.t. } L(x) = \min_{1\leq i\leq n} L(pbest_i(t))$$
+      
+        $$pbest_i(t) = x, \hspace{6pt} s.t. \hspace{6pt} L(x) = \min_{s\leq t} L(x_i(s))$$
+      
+        $$gbest_i(t) = x, \hspace{6pt} s.t. \hspace{6pt} L(x) = \min_{1\leq i\leq n} L(pbest_i(t))$$
     * Update velocities and positions as follows:
-        $$v_i(t+1) = w v_i(t) + c_1 r_i^1(t) (\text{pbest}_i(t)-x_i(t)) +c_2 r_i^2(t) (\text{gbest}_i(t)-x_i(t))$$
+      
+        $$v_i(t+1) = w v_i(t) + c_1 r_i^1(t) (pbest_i(t)-x_i(t)) +c_2 r_i^2(t) (gbest_i(t)-x_i(t))$$
+      
         $$x_i(t+1) = x_i(t) + v_i(t+1),$$
+      
         where $r_i^1, r_i^2$ are i.i.d. random variables with uniform distribution $U(0,1)$.
 The weights $w, c_1, c_2$ control the stregth of momentum, attraction to personal best and to global best positions.
 
 ### 3. Binary PSO
 In case of feature selection, we want to optimize the the validation error in the space of binary vectors $\{0,1\}^d$. Subsets of the total feature set $\{X^1,\dots,X^d\}$ are encoded as
-$$S \mapsto x = (x^1,\dots,x^d), \hspace{6pt} x^j = 1 \text{ iff } X^j\in S.$$
+
+$$ S \mapsto x = (x^1,\dots,x^d), \text{ where } \hspace{6pt} x^j = 1 \hspace{6pt} \text{ iff } \hspace{6pt} X^j\in S.$$
+
 The binary PSO (BPSO) algorithm differs from the continuous space version only in the position update step: on every step we generate i.i.d. rv.s $r^1,\dots, r^d \sim U(0,1)$ and update the positions as below.
-$$ x_i(t+1) = 1 \text{ if } r^i < (1+e^{-v_i(t)})^{-1},$$
-$$x_i(t+1) = 0 \text{ otherwise},$$
+
+$$ x_i(t+1) = 1 \hspace{6pt} \text{ if } \hspace{6pt} r^i < (1+e^{-v_i(t)})^{-1},$$
+
+$$ x_i(t+1) = 0 \hspace{6pt} \text{ otherwise}, $$
+
 The advantages of PSO are that it doesn't requires differentiability of the cost function, it is easy to implement and parallelize and it has chance to escape local minima. The common issues wit PSO are
 * Premature convergence: the algorithm often converges to quickly without singnificantly reducing the cost
 * Stagnation of the global best position, as the leader does not learn from other particles
@@ -65,9 +75,12 @@ The leader of the subswarm is the particle that holds the gbest, it performs the
 ### 1. Personal best update
 The update of pbest position of a particle is done when the current position has lower cost than the current pbest position, just like in usual PSO. But the updated position (subset) will only include the features that were actually used by the model. Tree-based models normally use less features than provided, depending on the number of splits they can make. It leads to much more sparse subsets. The cost of a position is the validation error of the model trained on the feature subset corresponding to that position.
 ### 2. Local search mechanism
-During the local search the next position of a particle $x(t+1)$ is calculated according to a randomized rule. The rule uses the importances of the feature in the subset encoded bythe pbest position and the pairwise distances between the features. The distance between features $X^i, X^j$ and the total distance from $X^j$ to a feature subset $S$ are defined as\
-    $$d(X^i,Xj) = 1 - |\rho(X^i, X^j)|,$$
-    $$d_{\text{total}}(S, X^j)^2 = \sum_{X^i \in S} d(X^i, X^j)^2,$$
+During the local search the next position of a particle $x(t+1)$ is calculated according to a randomized rule. The rule uses the importances of the feature in the subset encoded bythe pbest position and the pairwise distances between the features. The distance between features $X^i, X^j$ and the total distance from $X^j$ to a feature subset $S$ are defined as
+    
+$$d(X^i,Xj) = 1 - |\rho(X^i, X^j)|,$$
+    
+$$d_{\text{total}}(S, X^j)^2 = \sum_{X^i \in S} d(X^i, X^j)^2,$$
+    
 where $\rho$ is the Spearman correlation. The total distance $d_{\text{total}}(S, X^j)$ is thus a metric of independence of the feature $X^j$ for $S$. Heuristically features with higher distance can bring more information about the target into the subset of features $S$. The position of the local search is computed as below:
 * Let the pbest position of the particle $pbest_k(t)$ correspond to the feature subset $S$. We generate two independent rv.s $\xi\sim U(\{1,\dots,l\})$ and $\eta\sim U(\{1,\dots,\max(l, d-l)\})$
 * $\xi$ features from $S$ with the lowest importance scores will be considered for removal, each candidate will be removed with probability $0.5$. $\eta$ features that are not included and have the highest total distance from the features in $S$ will be considered for addition, each candidate will be added with probability $0.5$.
