@@ -401,7 +401,7 @@ print(classification_report(y_test,baseline_model.predict(X_test),digits=3))
     weighted avg      0.987     0.986     0.986      1980
     
 
-The feature selection with ensembling improved the recall of positive class from 0.910 to 0.947.
+Feature selection with ensembling improved the recall of the positive class from 0.910 to 0.947.
 
 ## <a class="references" id="references">References</a>
 
