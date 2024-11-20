@@ -356,6 +356,7 @@ for i in range(n_models):
     y_preds[f"clf_{i}"] = models[f"clf_{i}"].predict(X_test[best_subsets[i]])
 ```
 
+Below are classification quality metrics of the ensemble trained on selected features. We are interested in the recall of class 1.
 
 ```python
 from sklearn.metrics import recall_score, classification_report
@@ -373,7 +374,7 @@ print(classification_report(y_test,y_pred_agg,digits=3))
     weighted avg      0.990     0.990     0.990      1980
     
 
-
+We train a single baseline model without prior feature selection and display the same metrics.
 
 ```python
 baseline_model = lgbm.LGBMClassifier(
@@ -400,6 +401,7 @@ print(classification_report(y_test,baseline_model.predict(X_test),digits=3))
     weighted avg      0.987     0.986     0.986      1980
     
 
+The feature selection with ensembling improved the recall of positive class from 0.910 to 0.947.
 
 ## <a class="references" id="references">References</a>
 
