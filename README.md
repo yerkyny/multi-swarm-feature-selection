@@ -76,7 +76,7 @@ The update of pbest position of a particle is done when the current position has
 ### 2. Local search mechanism
 During the local search the next position of a particle $x(t+1)$ is calculated according to a randomized rule. The rule uses the importances of the feature in the subset encoded bythe pbest position and the pairwise distances between the features. The distance between features $X^i, X^j$ and the total distance from $X^j$ to a feature subset $S$ are defined as
     
-$$d(X^i,Xj) = 1 - |\rho(X^i, X^j)|,$$
+$$d(X^i,X^j) = 1 - |\rho(X^i, X^j)|,$$
     
 $$d_{\text{total}}(S, X^j)^2 = \sum_{X^i \in S} d(X^i, X^j)^2,$$
     
