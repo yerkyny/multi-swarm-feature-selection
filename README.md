@@ -46,7 +46,7 @@ Particle Swarm Optimization (PSO) is one of the simplest and earliest swarm inte
 The weights $w, c_1, c_2$ control the stregth of momentum, attraction to personal best and to global best positions.
 
 ### 3. Binary PSO
-In case of feature selection, we want to optimize the the validation error in the space of binary vectors $\{0,1\}^d$. Subsets of the total feature set $\{X^1,\dots,X^d\}$ are encoded as
+In case of feature selection, we want to optimize the the validation error in the space of binary vectors ${0,1}^d$. Subsets of the total feature set $\{X^1,\dots,X^d\}$ are encoded as
 
 $$ S \mapsto x = (x^1,\dots,x^d), \text{ where } \hspace{6pt} x^j = 1 \hspace{6pt} \text{ iff } \hspace{6pt} X^j\in S.$$
 
@@ -61,7 +61,6 @@ The advantages of PSO are that it doesn't requires differentiability of the cost
 * Stagnation of the global best position, as the leader does not learn from other particles
 * Other particles are dominated by the gbest
 * The algorithm doesn't use any statistical information about the data. 
-According to , Transformers rely on self-attention mechanisms.
 
 There is a great variety of modifications of PSO (including binary version) that try to address the common issues of PSO. There are also many other algorithms multi-agent algorithms inspired by nature, such as Ant Colony Optimization (ACO) [[Dorigo et al. (2006)](https://ieeexplore.ieee.org/abstract/document/4129846?casa_token=JgeeCH5G2LcAAAAA:bDRukvnSA-DISDU3JQ5lqQCvrtKXTAl-Qq4nZ4qKNRIgn9QhaftbhjJfc_uEh5W20YWQ5k7mq8Hb)], Artificial Bee Colony (ABC) [[Karaboga et al. (2014)](https://link.springer.com/article/10.1007/s10462-012-9328-0)], Firefly Algorithm (FA) [[Yang (2009)](https://arxiv.org/pdf/1003.1466)].
 
