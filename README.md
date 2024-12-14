@@ -4,7 +4,7 @@ This project implements a novel feature selection algorithm, namely a Multi-swar
 * [Introduction](#intro)
     1. [Wrapper methods]
     2. [Particle swarm optimization]
-    3. Binary PSO
+    3. [Binary PSO]
 * [Multi-swarm binary PSO with random regrouping and local search](#msbpso)
     1. [Personal best update]
     2. [Local search mechanism]
